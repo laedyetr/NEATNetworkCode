@@ -1,0 +1,3 @@
+#macro NEURON_INP 0
+#macro NEURON_HID 1
+#macro NEURON_OUT 2
