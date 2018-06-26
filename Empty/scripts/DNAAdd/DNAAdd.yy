@@ -1,8 +1,8 @@
 {
-    "id": "6fefe13c-45d9-4a7c-a85e-0d8def0dba57",
+    "id": "8dedef6b-f28b-4f75-9cfc-2c8cbd0a2803",
     "modelName": "GMScript",
     "mvc": "1.0",
-    "name": "SetNeatInput",
+    "name": "DNAAdd",
     "IsCompatibility": false,
     "IsDnD": false
 }

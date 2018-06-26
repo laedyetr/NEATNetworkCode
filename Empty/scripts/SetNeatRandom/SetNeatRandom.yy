@@ -1,8 +1,8 @@
 {
-    "id": "a5d0796d-bc2b-4d97-9fcc-e44040c3d146",
+    "id": "d2c46060-a682-496b-a8a5-c0e0d50701a2",
     "modelName": "GMScript",
     "mvc": "1.0",
-    "name": "GetNeatOutput",
+    "name": "SetNeatRandom",
     "IsCompatibility": false,
     "IsDnD": false
 }

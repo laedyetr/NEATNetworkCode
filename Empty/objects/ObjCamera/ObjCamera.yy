@@ -1,48 +1,38 @@
 {
-    "id": "d5d1a764-e654-4570-9002-a91ed7aeca10",
+    "id": "284664e4-2e12-4025-8646-1866ac030031",
     "modelName": "GMObject",
     "mvc": "1.0",
-    "name": "ObjControl",
+    "name": "ObjCamera",
     "eventList": [
         {
-            "id": "3c1b49cc-b17a-4067-bc13-0830225098ba",
-            "modelName": "GMEvent",
-            "mvc": "1.0",
-            "IsDnD": false,
-            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
-            "enumb": 0,
-            "eventtype": 0,
-            "m_owner": "d5d1a764-e654-4570-9002-a91ed7aeca10"
-        },
-        {
-            "id": "d6c62b3b-1fcd-4c55-87a2-8f0e35c46eb4",
-            "modelName": "GMEvent",
-            "mvc": "1.0",
-            "IsDnD": false,
-            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
-            "enumb": 0,
-            "eventtype": 8,
-            "m_owner": "d5d1a764-e654-4570-9002-a91ed7aeca10"
-        },
-        {
-            "id": "1ce842d4-79c7-46dd-8a46-85e0489828c7",
+            "id": "d1839281-4fe3-40d7-b11c-744da10b564e",
             "modelName": "GMEvent",
             "mvc": "1.0",
             "IsDnD": false,
             "collisionObjectId": "00000000-0000-0000-0000-000000000000",
             "enumb": 0,
             "eventtype": 3,
-            "m_owner": "d5d1a764-e654-4570-9002-a91ed7aeca10"
+            "m_owner": "284664e4-2e12-4025-8646-1866ac030031"
         },
         {
-            "id": "fd1fb460-1c71-4455-9831-deb512d46efc",
+            "id": "9957cb59-445d-40d6-8554-05950cc2c873",
             "modelName": "GMEvent",
             "mvc": "1.0",
             "IsDnD": false,
             "collisionObjectId": "00000000-0000-0000-0000-000000000000",
-            "enumb": 64,
+            "enumb": 0,
+            "eventtype": 0,
+            "m_owner": "284664e4-2e12-4025-8646-1866ac030031"
+        },
+        {
+            "id": "ed008af6-2fcb-4948-bc3f-bba027b13f10",
+            "modelName": "GMEvent",
+            "mvc": "1.0",
+            "IsDnD": false,
+            "collisionObjectId": "00000000-0000-0000-0000-000000000000",
+            "enumb": 0,
             "eventtype": 8,
-            "m_owner": "d5d1a764-e654-4570-9002-a91ed7aeca10"
+            "m_owner": "284664e4-2e12-4025-8646-1866ac030031"
         }
     ],
     "maskSpriteId": "00000000-0000-0000-0000-000000000000",

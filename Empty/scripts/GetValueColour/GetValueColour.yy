@@ -1,8 +1,8 @@
 {
-    "id": "ecdcdbb0-d802-4e11-b884-bc28f1bf8ba9",
+    "id": "eb7549b2-fbe2-4ba5-b15e-08281190cc4d",
     "modelName": "GMScript",
     "mvc": "1.0",
-    "name": "ScrNodesUpdate",
+    "name": "GetValueColour",
     "IsCompatibility": false,
     "IsDnD": false
 }

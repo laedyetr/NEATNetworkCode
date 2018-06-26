@@ -1,0 +1,1 @@
+draw_circle(global.MouseX,global.MouseY,8,8);

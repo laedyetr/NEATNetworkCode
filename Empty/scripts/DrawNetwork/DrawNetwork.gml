@@ -1,136 +1,157 @@
-var HiddenCount = NodeCount - InputCount+OutputCount;
-var HiddenAng = 360 / HiddenCount;
-var _x = argument0,_y = argument1;	
+var netx1 = argument0
+var nety1 = argument1
+var netx2 = argument2
+var nety2 = argument3
+var netW = netx2 - netx1;
+var netH = nety2 - nety1;
+var Rad = netW*0.02;
 
-for(var node=0; node<NodeCount; node++)
+var HidRad = min(netW/2-Rad*8,netH/2-Rad*8);
+var HidAngle = 360 / (ds_list_size(Nodes)/NODE_LSIZE - InputCount - OutputCount);
+//draw_rectangle(netx1,nety1,netx2,nety2,true);
+
+//Draw Connections
+for(var inp=0; inp < Inpcounter; inp++)
 {
-	
-	//show_debug_message(Nodes[| node*3+2])
-	var x1 = 0;
-	var y1 = 0;
-	
-	var col = 0;
-	var low = abs( clamp(Nodes[| node*3+1],-1,0) )
-	var high = clamp(Nodes[| node*3+1],0,1)
-	col = make_colour_rgb(255*low,0,255*high);
-	//show_debug_message(Nodes[| node*3+1])
-	
-	
-	switch(Nodes[| node*3+2])
-	{
-		case NEURON_INP:
-			x1 = _x-96;
-			y1 = _y+((Nodes[| node*3]-1000)*38)
-			draw_circle_outline(x1,y1,8,1,col);
-		break;
-		case NEURON_OUT:
-			x1 = _x+96;
-			y1 = _y+((Nodes[| node*3]-1000-InputCount)*38)
-			draw_circle_outline(x1,y1,8,1,col);
-		break;
-		
-		case NEURON_HID:
-			var n = ((Nodes[| node*3]-1000-InputCount-OutputCount))
-			x1 = _x + lengthdir_x(64,HiddenAng*(n- InputCount+OutputCount));
-			y1 = _y+48 + lengthdir_y(64,HiddenAng*(n- InputCount+OutputCount));
-			draw_circle_outline(x1,y1,8,1,col);
-		break;
-	}
-	/*
-	draw_set_colour(c_gray)
-	draw_set_halign(fa_center)
-	draw_set_valign(fa_center)
-	draw_text(x1,y1,string(Nodes[| node*3+1]))*/
+	//show_debug_message("poope2")
+	_ID = NodeRead(Nodes,Input[inp],NODE_ID)-NODE_ID_OFFSET
+	var dx = netx1 + Rad;
+	var dy = nety1 + Rad + (_ID/(InputCount))*netH;
+	draw_circle_colour(dx,dy,Rad*1.8,c_green,c_green,false)
 }
 
-
-//Draw and update
-//if(keyboard_check_pressed(ord("O")))
-for(var dnapos=0; dnapos<IHistory; dnapos++)
+for(var out=0; out < Outcounter; out++)
 {
-	var node1 = DNA[| dnapos*4]+1000;
-	var node2 = DNA[| dnapos*4+1]+1000;
+	//show_debug_message("pooper")
+	_ID = NodeRead(Nodes,Output[out],NODE_ID)-NODE_ID_OFFSET
+	var dx = netx1 + netW - Rad;
+	var dy = nety1 + Rad + ((_ID-InputCount)/(OutputCount))*netH;
+	draw_circle_colour(dx,dy,Rad*1.8,c_red,c_red,false)
+}
+_ID = noone;
+dx = 0;
+dy = 0;
+/*
+			var dx = netx1 + Rad;
+			var dy = nety1 + Rad + (_ID/(InputCount))*netH;
+			
+			draw_circle_outline(dx,dy,Rad,1,col)
+		
+		break;
+		
+		case NEURON_OUT:
+		
+			
+			var dx = netx1 + netW - Rad;
+			var dy = nety1 + Rad + ((_ID-InputCount)/(OutputCount))*netH;
+*/
+
+
+for(var dnapos=0; dnapos < ds_list_size(DNA)/DNA_LSIZE; dnapos++)
+{
+	var node1 = DNARead(DNA,dnapos,DNA_NODE1)+NODE_ID_OFFSET;
+	var node2 = DNARead(DNA,dnapos,DNA_NODE2)+NODE_ID_OFFSET;
+	var node1 = ds_list_find_index(Nodes,node1)/NODE_LSIZE;
 	
-	
-	
-	node1 = real(ds_list_find_index(Nodes,node1))/3
-	node2 = real(ds_list_find_index(Nodes,node2))/3
-	
-	
-	
-	var en = DNA[| dnapos*4+3];
-	
-	
+	var node2 = ds_list_find_index(Nodes,node2)/NODE_LSIZE;
 	//show_debug_message(string(node1) + " | " + string(node2));
 	
-	var x1 = _x;
-	var y1 = _y;
-	var x2 = _x-16;
-	var y2 = _y;
+	var dx1 = 0;
+	var dy1 = 0;
+	var dx2 = 32;
+	var dy2 = 32;
+	var col1 = GetValueColour(DNARead(DNA,dnapos,DNA_WEIGHT),make_colour_rgb(239,93,203),make_colour_rgb(239,190,70));
+	var col2 = GetValueColour(DNARead(DNA,dnapos,DNA_WEIGHT),make_colour_rgb(239,93,203),make_colour_rgb(239,190,70));
 	
-	if(en)
+	if(DNARead(DNA,dnapos,DNA_ACTIVE) and node1!=-1 and node2!=-1)
 	{
-		switch(Nodes[| node1*3+2])
+		var _ID1 = NodeRead(Nodes,node1,NODE_ID)-NODE_ID_OFFSET;
+		var _ID2 = NodeRead(Nodes,node2,NODE_ID)-NODE_ID_OFFSET;
+		
+		switch(NodeRead(Nodes,node1,NODE_TYPE))
 		{
 			case NEURON_INP:
-				x1 = _x-96;
-				y1 = _y+((Nodes[| node1*3]-1000)*38)
-				//draw_circle_outline(x,y+((Nodes[| node1*3]-1000)*8),3,1,c_orange);
-				//show_debug_message("node 1 is an input")
+				dx1 = netx1 + Rad;
+				dy1 = nety1 + Rad + (_ID1/(InputCount))*netH;
+				//show_message("inp");
 			break;
-			
+		
 			case NEURON_OUT:
-				x1 = _x+96;
-				y1 = _y+((Nodes[| node1*3]-1000-InputCount)*38)
-				//draw_circle_outline(x+96,y+((Nodes[| node1*3]-1000-Inputs)*8),3,1,c_orange);
-				//show_debug_message("node 1 is an output")
+				dx1 = netx1 + netW - Rad;
+				dy1 = nety1 + Rad + ((_ID1-InputCount)/(OutputCount))*netH;
+				//show_message("out");
 			break;
-			
+		
+		
 			case NEURON_HID:
-				var n = ((Nodes[| node1*3]-1000-InputCount-OutputCount))
-				x1 = _x + lengthdir_x(64,HiddenAng*(n- InputCount+OutputCount));
-				y1 = _y+48 + lengthdir_y(64,HiddenAng*(n- InputCount+OutputCount));
-				//draw_circle_outline(x1,y1,3,1,c_orange);
-				//show_debug_message("node 1 is an hidden")
+				dx1 = netx1 + netW/2 + lengthdir_x(HidRad,(_ID1-InputCount - OutputCount)*HidAngle);
+				dy1 = nety1 + netH/2 + lengthdir_y(HidRad,(_ID1-InputCount - OutputCount)*HidAngle);
+				//show_message("hid");
 			break;
 		}
-	
-		switch(Nodes[| node2*3+2])
+		switch(NodeRead(Nodes,node2,NODE_TYPE))
 		{
 			case NEURON_INP:
-				x2 = _x;
-				y2 = _y+((Nodes[| node2*3]-1000)*38)
-				//draw_circle_outline(x,y+((Nodes[| node1*3]-1000)*8),3,1,c_orange);
-				//show_debug_message("node 2 is an input")
+				dx2 = netx1 + Rad;
+				dy2 = nety1 + Rad + (_ID2/(InputCount))*netH;
+				//show_message("inp");
 			break;
-			
+		
 			case NEURON_OUT:
-				x2 = _x+96;
-				y2 = _y+((Nodes[| node2*3]-1000-InputCount)*38)
-				//draw_circle_outline(x+96,y+((Nodes[| node1*3]-1000-Inputs)*8),3,1,c_orange);
-				//show_debug_message("node 2 is an output")
+				dx2 = netx1 + netW - Rad;
+				dy2 = nety1 + Rad + ((_ID2-InputCount)/(OutputCount))*netH;
+				//show_message("out");
 			break;
-			
+		
 			case NEURON_HID:
-				var n = ((Nodes[| node2*3]-1000-InputCount-OutputCount))
-				x2 = _x + lengthdir_x(64,HiddenAng*(n- InputCount+OutputCount));
-				y2 = _y+48 + lengthdir_y(64,HiddenAng*(n- InputCount+OutputCount));
-				//draw_circle_outline(x1,y1,3,1,c_orange);
-				//show_debug_message("node 2 is an hidden")
+				dx2 = netx1 + netW/2 + lengthdir_x(HidRad,(_ID2-InputCount - OutputCount)*HidAngle);
+				dy2 = nety1 + netH/2 + lengthdir_y(HidRad,(_ID2-InputCount - OutputCount)*HidAngle);
+				//show_message("hid");
 			break;
 		}
-	
-		
-		var col = 0;
-		var low = abs( clamp(DNA[| dnapos*4+2],-1,0) )
-		var high = clamp(DNA[| dnapos*4+2],0,1)
-		col = make_colour_rgb(255*low,0,255*high);
-		//show_debug_message(Nodes[| node*3+1])
-		draw_line_width_color(x1,y1,x2,y2,2,col,col);
 		
 		
-		//show_debug_message("created line from node " + string(node1) + " of type " + string(Nodes[| node1*3+2]) + 
-		//" to node " + string(node2) + " of type " + string(Nodes[| node2*3+2]));
-		
+		draw_line_width_colour(dx1,dy1,dx2,dy2,2,col1,c_white);
 	}
 }
+
+for(var netpos=0; netpos < ds_list_size(Nodes)/NODE_LSIZE; netpos++)
+{
+	var _ID = NodeRead(Nodes,netpos,NODE_ID)-NODE_ID_OFFSET;
+	
+	var col = GetValueColour(NodeRead(Nodes,netpos,NODE_VALUE),make_colour_rgb(239,93,203),make_colour_rgb(239,190,70));
+	
+	switch(NodeRead(Nodes,netpos,NODE_TYPE))
+	{
+		case NEURON_INP:
+		
+			
+			var dx = netx1 + Rad;
+			var dy = nety1 + Rad + (_ID/(InputCount))*netH;
+			
+			draw_circle_outline(dx,dy,Rad,1,col)
+		
+		break;
+		
+		case NEURON_OUT:
+		
+			
+			var dx = netx1 + netW - Rad;
+			var dy = nety1 + Rad + ((_ID-InputCount)/(OutputCount))*netH;
+			
+			draw_circle_outline(dx,dy,Rad,1,col)
+			//game_end()
+		break;
+		
+		
+		case NEURON_HID:
+		
+			
+			var dx = netx1 + netW/2 + lengthdir_x(HidRad,(_ID-InputCount - OutputCount)*HidAngle);
+			var dy = nety1 + netH/2 + lengthdir_y(HidRad,(_ID-InputCount - OutputCount)*HidAngle);
+			draw_circle_outline(dx,dy,Rad,1,col)
+			//game_end()
+		break;
+	}
+}
+
